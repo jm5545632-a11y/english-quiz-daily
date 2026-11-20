@@ -1,0 +1,417 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Quiz Daily</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0b1120;
+  color: white;
+  min-height: 100vh;
+}
+
+header {
+  padding: 20px;
+  text-align: center;
+  background: #111b2e;
+  border-bottom: 1px solid #26334a;
+}
+
+.logo {
+  font-size: 27px;
+  font-weight: bold;
+  color: #55d6ff;
+}
+
+.logo span {
+  color: #ffffff;
+}
+
+header p {
+  color: #b9c5d6;
+  margin-top: 8px;
+}
+
+.hero {
+  text-align: center;
+  padding: 35px 15px 20px;
+}
+
+.hero h1 {
+  font-size: 30px;
+  margin-bottom: 10px;
+}
+
+.hero h1 span {
+  color: #55d6ff;
+}
+
+.hero p {
+  color: #b9c5d6;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 15px;
+}
+
+.quiz-card {
+  background: #172338;
+  border: 1px solid #2c3d59;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+
+.quiz-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #55d6ff;
+  font-size: 14px;
+}
+
+.progress {
+  height: 8px;
+  background: #2a3850;
+  border-radius: 20px;
+  margin-bottom: 25px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 0%;
+  height: 100%;
+  background: #55d6ff;
+  transition: 0.3s;
+}
+
+.question {
+  font-size: 23px;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+.options {
+  display: grid;
+  gap: 12px;
+}
+
+.option {
+  padding: 15px;
+  background: #202f48;
+  border: 1px solid #344966;
+  color: white;
+  border-radius: 12px;
+  text-align: left;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.option:hover:not(:disabled) {
+  border-color: #55d6ff;
+  background: #263b57;
+}
+
+.option:disabled {
+  cursor: default;
+}
+
+.correct {
+  background: #145c45 !important;
+  border-color: #3cdb99 !important;
+}
+
+.wrong {
+  background: #71333a !important;
+  border-color: #ff7777 !important;
+}
+
+.feedback {
+  margin-top: 18px;
+  padding: 14px;
+  border-radius: 10px;
+  display: none;
+  line-height: 1.5;
+}
+
+.next-btn, .restart-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 15px;
+  background: #55d6ff;
+  color: #08111f;
+  border: none;
+  border-radius: 12px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.next-btn:hover, .restart-btn:hover {
+  background: #8be5ff;
+}
+
+.result {
+  text-align: center;
+  display: none;
+}
+
+.result h2 {
+  color: #55d6ff;
+  margin-bottom: 15px;
+}
+
+.score {
+  font-size: 45px;
+  margin: 20px 0;
+  font-weight: bold;
+}
+
+footer {
+  text-align: center;
+  padding: 25px 15px;
+  margin-top: 30px;
+  color: #94a3b8;
+  border-top: 1px solid #25344a;
+}
+
+footer strong {
+  color: #55d6ff;
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 25px;
+  }
+  .quiz-card {
+    padding: 18px;
+  }
+  .question {
+    font-size: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">English <span>Quiz Daily</span></div>
+  <p>Learn English • Practice Daily • Improve Your Skills</p>
+</header>
+
+<section class="hero">
+  <h1>Test Your <span>English</span></h1>
+  <p>Challenge yourself with today's English quiz!</p>
+</section>
+
+<div class="container">
+
+<div class="quiz-card" id="quizCard">
+
+  <div class="quiz-top">
+    <span id="questionNumber">Question 1 / 5</span>
+    <span id="scoreText">Score: 0</span>
+  </div>
+
+  <div class="progress">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+
+  <h2 class="question" id="question"></h2>
+
+  <div class="options" id="options"></div>
+
+  <div class="feedback" id="feedback"></div>
+
+  <button class="next-btn" id="nextBtn" style="display:none;">
+    Next Question →
+  </button>
+
+</div>
+
+<div class="quiz-card result" id="resultCard">
+  <h2>Quiz Completed! 🎉</h2>
+  <p>Your final score:</p>
+  <div class="score" id="finalScore"></div>
+  <p id="resultMessage"></p>
+  <button class="restart-btn" onclick="restartQuiz()">Try Again</button>
+</div>
+
+</div>
+
+<footer>
+  <p>Keep learning English every day!</p>
+  <p>© 2026 <strong>English Quiz Daily</strong></p>
+</footer>
+
+<script>
+
+const questions = [
+  {
+    question: "She _____ to school every day.",
+    options: ["Go", "Goes", "Going", "Gone"],
+    answer: 1,
+    explanation: "We use 'goes' with he, she, and it in the simple present tense."
+  },
+  {
+    question: "What is the opposite of 'Brave'?",
+    options: ["Strong", "Fearless", "Cowardly", "Honest"],
+    answer: 2,
+    explanation: "'Cowardly' means lacking courage. It is the opposite of brave."
+  },
+  {
+    question: "Choose the correct spelling:",
+    options: ["Beautifull", "Beutiful", "Beautiful", "Beautifal"],
+    answer: 2,
+    explanation: "The correct spelling is Beautiful."
+  },
+  {
+    question: "I have _____ my homework.",
+    options: ["Do", "Did", "Doing", "Done"],
+    answer: 3,
+    explanation: "After 'have', we use the past participle. The correct form is Done."
+  },
+  {
+    question: "What does 'Rapid' mean?",
+    options: ["Slow", "Fast", "Weak", "Quiet"],
+    answer: 1,
+    explanation: "'Rapid' means very fast or quick."
+  }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let answered = false;
+
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const feedbackEl = document.getElementById("feedback");
+const nextBtn = document.getElementById("nextBtn");
+const progressBar = document.getElementById("progressBar");
+const questionNumber = document.getElementById("questionNumber");
+const scoreText = document.getElementById("scoreText");
+
+function loadQuestion() {
+  answered = false;
+  feedbackEl.style.display = "none";
+  nextBtn.style.display = "none";
+
+  const q = questions[currentQuestion];
+
+  questionNumber.textContent =
+    `Question ${currentQuestion + 1} / ${questions.length}`;
+
+  scoreText.textContent = `Score: ${score}`;
+
+  progressBar.style.width =
+    `${(currentQuestion / questions.length) * 100}%`;
+
+  questionEl.textContent = q.question;
+  optionsEl.innerHTML = "";
+
+  q.options.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.className = "option";
+    button.textContent = option;
+    button.onclick = () => checkAnswer(index, button);
+    optionsEl.appendChild(button);
+  });
+}
+
+function checkAnswer(index, selectedButton) {
+  if (answered) return;
+  answered = true;
+
+  const q = questions[currentQuestion];
+  const buttons = document.querySelectorAll(".option");
+
+  buttons.forEach(button => button.disabled = true);
+
+  if (index === q.answer) {
+    score++;
+    selectedButton.classList.add("correct");
+    feedbackEl.style.background = "#145c45";
+    feedbackEl.innerHTML = "✅ Correct! " + q.explanation;
+  } else {
+    selectedButton.classList.add("wrong");
+    buttons[q.answer].classList.add("correct");
+    feedbackEl.style.background = "#71333a";
+    feedbackEl.innerHTML = "❌ Incorrect. " + q.explanation;
+  }
+
+  feedbackEl.style.display = "block";
+  scoreText.textContent = `Score: ${score}`;
+  nextBtn.style.display = "block";
+
+  if (currentQuestion === questions.length - 1) {
+    nextBtn.textContent = "See My Result →";
+  } else {
+    nextBtn.textContent = "Next Question →";
+  }
+}
+
+nextBtn.onclick = function() {
+  currentQuestion++;
+
+  if (currentQuestion < questions.length) {
+    loadQuestion();
+  } else {
+    showResult();
+  }
+};
+
+function showResult() {
+  document.getElementById("quizCard").style.display = "none";
+
+  const resultCard = document.getElementById("resultCard");
+  resultCard.style.display = "block";
+
+  document.getElementById("finalScore").textContent =
+    `${score} / ${questions.length}`;
+
+  let message = "";
+
+  if (score === 5) {
+    message = "Excellent! You got every question correct!";
+  } else if (score >= 3) {
+    message = "Great work! Keep practicing your English.";
+  } else {
+    message = "Keep practicing! You will improve every day.";
+  }
+
+  document.getElementById("resultMessage").textContent = message;
+  progressBar.style.width = "100%";
+}
+
+function restartQuiz() {
+  currentQuestion = 0;
+  score = 0;
+
+  document.getElementById("resultCard").style.display = "none";
+  document.getElementById("quizCard").style.display = "block";
+
+  loadQuestion();
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>

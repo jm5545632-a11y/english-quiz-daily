@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>English Quiz Daily – Learn English with fun daily quizzes</title>
+<meta name="description" content="Free daily English quizzes on grammar and vocabulary. Test yourself and see your score.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0f1b3d;
+  --deep:#16275a;
+  --paper:#fbfaf7;
+  --gold:#ffc43d;
+  --good:#1f9d63;
+  --bad:#d64545;
+  --muted:#5b6788;
+  --line:#dfe3ee;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:"Lexend",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  color:var(--ink);
+  min-height:100vh;
+  background:
+    radial-gradient(900px 500px at 85% -10%,rgba(255,196,61,.22),transparent 60%),
+    radial-gradient(800px 500px at -10% 110%,rgba(90,140,255,.28),transparent 60%),
+    linear-gradient(160deg,#0f1b3d 0%,#1b2f6e 100%);
+  background-attachment:fixed;
+  display:flex;flex-direction:column;
+}
+body::before{
+  content:"";position:fixed;inset:0;pointer-events:none;
+  background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1px);
+  background-size:26px 26px;
+}
+header,main,footer{position:relative;width:100%;max-width:640px;margin:0 auto;padding:0 18px}
+header{padding-top:22px;padding-bottom:6px;display:flex;align-items:center;justify-content:space-between;color:#fff}
+.brand{font-weight:700;font-size:19px;letter-spacing:.2px}
+.brand span{color:var(--gold)}
+.tag{font-size:13px;color:#c9d3f2}
+main{flex:1;padding-top:14px;padding-bottom:30px}
+.card{
+  background:var(--paper);
+  border-radius:20px;
+  padding:28px 24px;
+  box-shadow:0 24px 60px rgba(5,12,40,.45);
+}
+.hidden{display:none!important}
+
+/* Start screen */
+h1{font-size:31px;line-height:1.2;margin:0 0 12px;font-weight:700}
+.lead{color:var(--muted);line-height:1.6;margin:0 0 22px;font-size:16px}
+.facts{display:flex;gap:10px;margin:0 0 24px;padding:0;list-style:none;flex-wrap:wrap}
+.facts li{background:#eef1fa;border-radius:10px;padding:9px 13px;font-size:14px;font-weight:500}
+.btn{
+  font-family:inherit;font-size:17px;font-weight:600;
+  border:0;border-radius:12px;padding:15px 22px;cursor:pointer;
+  background:var(--gold);color:var(--ink);width:100%;
+  transition:transform .12s ease,box-shadow .12s ease;
+  box-shadow:0 4px 0 #d79e12;
+}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #d79e12}
+.btn.ghost{background:#fff;border:2px solid var(--line);box-shadow:none;color:var(--ink);margin-top:10px}
+button:focus-visible{outline:3px solid #5a8cff;outline-offset:2px}
+
+/* Quiz */
+.top{display:flex;justify-content:space-between;align-items:center;font-size:14px;font-weight:500;color:var(--muted);margin-bottom:10px}
+.pill{background:#eef1fa;border-radius:999px;padding:5px 12px;color:var(--ink)}
+.bar{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin-bottom:24px}
+.bar i{display:block;height:100%;width:0;background:var(--gold);border-radius:99px;transition:width .35s ease}
+.q{font-size:22px;line-height:1.4;font-weight:600;margin:0 0 20px}
+.opts{display:grid;gap:11px}
+.opt{
+  font-family:inherit;font-size:17px;text-align:left;
+  background:#fff;border:2px solid var(--line);border-radius:12px;
+  padding:14px 16px;cursor:pointer;color:var(--ink);
+  display:flex;align-items:center;gap:12px;
+  transition:border-color .15s,background .15s;
+}
+.opt b{
+  flex:none;width:28px;height:28px;border-radius:8px;background:#eef1fa;
+  display:grid;place-items:center;font-size:14px;
+}
+.opt:hover:not(:disabled){border-color:var(--deep)}
+.opt:disabled{cursor:default}
+.opt.right{background:#e5f6ed;border-color:var(--good)}
+.opt.right b{background:var(--good);color:#fff}
+.opt.wrong{background:#fbe9e9;border-color:var(--bad)}
+.opt.wrong b{background:var(--bad);color:#fff}
+.why{margin:18px 0 0;padding:14px 16px;border-radius:12px;background:#eef1fa;line-height:1.55;font-size:15px}
+.why strong{display:block;margin-bottom:3px}
+#next{margin-top:18px}
+
+/* Result */
+.score{
+  width:150px;height:150px;border-radius:50%;margin:4px auto 18px;
+  display:grid;place-items:center;
+  background:conic-gradient(var(--gold) calc(var(--p)*1%),var(--line) 0);
+}
+.score div{
+  width:122px;height:122px;border-radius:50%;background:var(--paper);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.score strong{font-size:36px;line-height:1}
+.score span{font-size:13px;color:var(--muted);margin-top:4px}
+.center{text-align:center}
+.msg{font-size:22px;font-weight:700;margin:0 0 6px}
+.sub{color:var(--muted);margin:0 0 22px;line-height:1.55}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px}
+.stats div{background:#eef1fa;border-radius:12px;padding:12px;text-align:center;font-size:14px;color:var(--muted)}
+.stats b{display:block;font-size:22px;color:var(--ink)}
+
+footer{padding-top:6px;padding-bottom:26px;text-align:center;color:#aebbe6;font-size:13px}
+
+@media (min-width:600px){
+  .card{padding:36px 36px}
+  h1{font-size:38px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">English Quiz <span>Daily</span></div>
+  <div class="tag">Grammar &amp; Vocabulary</div>
+</header>
+
+<main>
+  <!-- Start -->
+  <section class="card" id="start">
+    <h1>Test your English in 2 minutes</h1>
+    <p class="lead">Answer 10 quick questions on grammar and vocabulary. After every answer you see the correct one and a short reason why.</p>
+    <ul class="facts">
+      <li>10 questions</li>
+      <li>Instant feedback</li>
+      <li>Free to play</li>
+    </ul>
+    <button class="btn" id="startBtn">Start quiz</button>
+  </section>
+
+  <!-- Quiz -->
+  <section class="card hidden" id="quiz">
+    <div class="top">
+      <span id="count">Question 1 of 10</span>
+      <span class="pill" id="live">Score: 0</span>
+    </div>
+    <div class="bar"><i id="fill"></i></div>
+    <h2 class="q" id="question"></h2>
+    <div class="opts" id="options"></div>
+    <div class="why hidden" id="why"></div>
+    <button class="btn hidden" id="next">Next question</button>
+  </section>
+
+  <!-- Result -->
+  <section class="card center hidden" id="result">
+    <div class="score" id="ring"><div><strong id="big">0</strong><span id="outof">out of 10</span></div></div>
+    <p class="msg" id="msg"></p>
+    <p class="sub" id="sub"></p>
+    <div class="stats">
+      <div><b id="okN">0</b>Correct</div>
+      <div><b id="noN">0</b>Wrong</div>
+    </div>
+    <button class="btn" id="again">Play again</button>
+    <button class="btn ghost" id="share">Share my score</button>
+  </section>
+</main>
+
+<footer>© English Quiz Daily. New questions coming soon.</footer>
+
+<script>
+const QUESTIONS = [
+  {q:"She ___ to school every day.", o:["go","goes","going","gone"], a:1, e:"With he/she/it in the present simple, add -s or -es to the verb."},
+  {q:"I have ___ apple in my bag.", o:["a","an","the","some"], a:1, e:"Use “an” before a vowel sound. “Apple” starts with the vowel sound /æ/."},
+  {q:"They ___ playing football now.", o:["is","am","are","be"], a:2, e:"“They” takes “are”. We use am/is/are + verb-ing for actions happening now."},
+  {q:"What is the opposite of “ancient”?", o:["old","modern","huge","quiet"], a:1, e:"“Ancient” means very old. Its opposite is “modern”."},
+  {q:"Yesterday I ___ a great movie.", o:["see","seen","saw","sees"], a:2, e:"“Saw” is the past simple of “see”. Use it for finished actions in the past."},
+  {q:"He is good ___ mathematics.", o:["in","at","on","for"], a:1, e:"We say “good at” when we talk about a skill or subject."},
+  {q:"Choose the correct word: “Please ___ the door.”", o:["close","closes","closing","closed"], a:0, e:"After “please” in a request, use the base form of the verb: close."},
+  {q:"“Rapid” means the same as ___.", o:["slow","fast","weak","late"], a:1, e:"“Rapid” and “fast” both describe something that happens quickly."},
+  {q:"If it rains, we ___ at home.", o:["stay","stayed","will stay","staying"], a:2, e:"In a real future condition: If + present simple, will + base verb."},
+  {q:"She has lived here ___ 2019.", o:["for","since","from","during"], a:1, e:"Use “since” with a starting point in time (2019). Use “for” with a length of time."}
+];
+
+const $ = id => document.getElementById(id);
+let list, i, score, locked;
+
+function shuffle(a){
+  a = a.slice();
+  for(let n=a.length-1;n>0;n--){const k=Math.floor(Math.random()*(n+1));[a[n],a[k]]=[a[k],a[n]];}
+  return a;
+}
+function show(id){
+  ["start","quiz","result"].forEach(s => $(s).classList.toggle("hidden", s!==id));
+  window.scrollTo({top:0});
+}
+function begin(){
+  list = shuffle(QUESTIONS);
+  i = 0; score = 0;
+  show("quiz");
+  render();
+}
+function render(){
+  const c = list[i];
+  locked = false;
+  $("count").textContent = "Question " + (i+1) + " of " + list.length;
+  $("live").textContent = "Score: " + score;
+  $("fill").style.width = (i/list.length*100) + "%";
+  $("question").textContent = c.q;
+  $("why").classList.add("hidden");
+  $("next").classList.add("hidden");
+  const box = $("options");
+  box.innerHTML = "";
+  c.o.forEach((text,n) => {
+    const b = document.createElement("button");
+    b.className = "opt";
+    b.innerHTML = "<b>" + "ABCD"[n] + "</b><span></span>";
+    b.lastChild.textContent = text;
+    b.onclick = () => pick(b,n);
+    box.appendChild(b);
+  });
+}
+function pick(btn,n){
+  if(locked) return;
+  locked = true;
+  const c = list[i];
+  const all = document.querySelectorAll("#options .opt");
+  all.forEach(b => b.disabled = true);
+  all[c.a].classList.add("right");
+  let head;
+  if(n === c.a){ score++; head = "Correct!"; }
+  else { btn.classList.add("wrong"); head = "Not quite. The answer is “" + c.o[c.a] + "”."; }
+  $("live").textContent = "Score: " + score;
+  $("why").innerHTML = "<strong></strong><span></span>";
+  $("why").firstChild.textContent = head;
+  $("why").lastChild.textContent = c.e;
+  $("why").classList.remove("hidden");
+  $("next").textContent = (i === list.length-1) ? "See my score" : "Next question";
+  $("next").classList.remove("hidden");
+  $("fill").style.width = ((i+1)/list.length*100) + "%";
+}
+function finish(){
+  const total = list.length, pct = Math.round(score/total*100);
+  show("result");
+  $("big").textContent = score;
+  $("outof").textContent = "out of " + total;
+  $("ring").style.setProperty("--p", pct);
+  $("okN").textContent = score;
+  $("noN").textContent = total - score;
+  let m, s;
+  if(pct >= 90){ m = "Excellent work!"; s = "Your English is very strong. Try again to keep your streak going."; }
+  else if(pct >= 70){ m = "Great job!"; s = "You know your basics well. A little more practice and you will reach the top."; }
+  else if(pct >= 50){ m = "Good effort!"; s = "You are on the right track. Play again and read each explanation carefully."; }
+  else { m = "Keep practicing!"; s = "Every quiz makes you better. Play again and learn from the explanations."; }
+  $("msg").textContent = m;
+  $("sub").textContent = s;
+}
+$("startBtn").onclick = begin;
+$("again").onclick = begin;
+$("next").onclick = () => { i++; if(i < list.length) render(); else finish(); };
+$("share").onclick = () => {
+  const text = "I scored " + score + "/" + list.length + " on English Quiz Daily! Can you beat me?";
+  if(navigator.share){ navigator.share({title:"English Quiz Daily", text:text, url:location.href}).catch(()=>{}); }
+  else if(navigator.clipboard){ navigator.clipboard.writeText(text + " " + location.href).then(()=>{ $("share").textContent = "Copied!"; }); }
+};
+</script>
+</body>
+</html>
